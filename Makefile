@@ -247,6 +247,19 @@ config-galaxy-s2: config-gecko adb-check-version
 	./extract-files.sh && \
 	echo OK
 
+
+.PHONY: config-p4wifi
+config-p4wifi: config-gecko adb-check-version
+	@echo "KERNEL = p4wifi" > .config.mk && \
+        echo "KERNEL_PATH = ./boot/kernel-android-p4wifi" >> .config.mk && \
+	echo "GONK = p4wifi" >> .config.mk && \
+	export PATH=$$PATH:$$(dirname $(ADB)) && \
+	cp -p config/kernel-p4wifi boot/kernel-android-p4wifi/.config && \
+	cd $(GONK_PATH)/device/samsung/p4wifi/ && \
+	echo Extracting binary blobs from device, which should be plugged in! ... && \
+	./extract-files.sh && \
+	echo OK
+
 .PHONY: config-maguro
 config-maguro: config-gecko adb-check-version
 	@echo "KERNEL = msm" > .config.mk && \
